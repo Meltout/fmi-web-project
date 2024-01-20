@@ -2,7 +2,7 @@
 FROM php:latest
 
 # Set a working directory inside the container
-WORKDIR /var/www/html
+WORKDIR /var/www/html/public
 
 # Copy your PHP application files into the container
 COPY . /var/www/html
