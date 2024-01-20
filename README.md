@@ -1,13 +1,17 @@
-# After cloning this project make sure to have docker installed on your machine
+# Build and run Docker container
 
-# Starts the containers with the images specified in docker-compose.yml. It automatically runs a docker-compose.yml file in the current directory.
+## 1. Build the Docker image 
 
-docker-compose up
+```bash
+docker build -t my-php-app .
+```
 
-# Your PHP web app will we on localhost
+Replace my-php-app with your desired image name.
 
-# Stopping containers and clealing the resources
+## 2. Run the docker container
 
-docker-compose down
+```bash
+docker run -p 8080:80 my-php-app
+```
 
-# no volumes are persisted for any container
+This assumes your PHP application will run on port 80 inside the container, and it maps the container's port 80 to your host machine's port 8080. Adjust the port mapping as needed.
