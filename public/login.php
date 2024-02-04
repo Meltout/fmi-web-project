@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
         <?php if ($loginStatus === 'error') : ?>
             <p class="error-message"><?= $loginMessage ?></p>
         <?php endif; ?>
+
         <form action="login.php" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
             <input type="password" id="password" name="password" required>
             <button type="submit">Login</button>
         </form>
+        <a href="register.php">Register</a>
     </div>
 </body>
 </html>
