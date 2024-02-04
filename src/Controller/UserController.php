@@ -1,17 +1,20 @@
 <?php
-
 require_once __DIR__ . '/../Model/UserModel.php';
-require_once __DIR__ . '/../View/UserListView.php';
 
 class UserController {
-    public function listUsers() {
-        $model = new UserModel();
-        return $model->getAllUsers();
+    private $userModel;
+
+    public function __construct() {
+        $this->userModel = new UserModel();
     }
 
+
     public function registerUser($name, $password) {
-        $model = new UserModel();
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        return $model->registerUser($name, $hashedPassword);
+        return $this->userModel->registerUser($name, $password);
+    }
+
+    public function loginUser($username, $password) {
+        $loginResult = $this->userModel->login($username, $password);
+        return $loginResult;
     }
 }
