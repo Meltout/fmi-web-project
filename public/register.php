@@ -26,29 +26,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name']) && isset($_PO
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
+    <link rel="stylesheet" href="assets/register.css">
 </head>
 <body>
-    <h1>Register</h1>
-    
-    <form action="" method="post">
-        <label for="name">Username:</label>
-        <input type="text" id="name" name="name" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Register</button>
-    </form>
-    
-    <p><?= $registrationMessage ?></p>
-    
-    <p>Already have an account? <a href="login.php">Login</a></p>
+    <main class="container">
+        <h1>Register</h1>
+
+        <?php if (!empty($registrationMessage)) : ?>
+            <p class="error-message"><?= $registrationMessage ?></p>
+        <?php endif; ?>
+
+        <form action="register.php" method="post">
+            <section class="form-group">
+                <label for="name">Username:</label>
+                <input type="text" id="name" name="name" required>
+            </section>
+            <section class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </section>
+            <button type="submit">Register</button>
+        </form>
+
+        <nav>
+            <p>Already have an account? <a href="login.php">Login</a></p>
+        </nav>
+    </main>
 </body>
 </html>

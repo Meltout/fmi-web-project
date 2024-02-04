@@ -25,30 +25,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/login.css">
 </head>
 <body>
-    <div class="container">
+    <main class="container">
         <h1>Login</h1>
         <?php if ($loginStatus === 'error') : ?>
             <p class="error-message"><?= $loginMessage ?></p>
         <?php endif; ?>
 
         <form action="login.php" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <section class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </section>
+            <section class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </section>
             <button type="submit">Login</button>
         </form>
-        <a href="register.php">Register</a>
-    </div>
+        <nav>
+            <a href="register.php">Register</a>
+        </nav>
+    </main>
 </body>
 </html>
