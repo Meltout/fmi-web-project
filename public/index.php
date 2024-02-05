@@ -11,7 +11,7 @@
     <p>Users:</p>
     <?php
     // Your SQLite database connection
-    $pdo = new PDO('sqlite:mydatabase.sqlite');
+    $pdo = new PDO('sqlite:../mydatabase.sqlite');
 
     // Query to fetch users
     $query = $pdo->query('SELECT * FROM users');
