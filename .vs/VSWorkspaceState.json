@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\public",
+    "\\public\\assets",
+    "\\src",
+    "\\src\\Controller",
+    "\\src\\dependencies",
+    "\\src\\dependencies\\firebase",
+    "\\src\\dependencies\\firebase\\jwt",
+    "\\src\\dependencies\\firebase\\jwt\\src",
+    "\\src\\Model"
+  ],
+  "SelectedNode": "\\public\\tableView.php",
+  "PreviewInSolutionExplorer": false
+}
