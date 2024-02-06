@@ -4,8 +4,8 @@ namespace Core;
 
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
-use Models\Table;
-use Models\Client;
+use Models\TableModel;
+use Models\ClientModel;
 
 class App implements MessageComponentInterface
 {
