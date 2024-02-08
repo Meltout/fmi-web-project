@@ -5,30 +5,47 @@ namespace Models;
 use Ratchet\ConnectionInterface;
 
 class TableModel {
-    private $table;
-
-    public function __construct($rows, $cols) {
-        // Initialize a 2D table with empty values
-        $this->table = array_fill(0, $rows, array_fill(0, $cols, null));
+    private array $contents; // contains formula for corresponding cell: e.g "3", "$A1+$B2", "some_string" and etc.
+    private array $locked_by; // contains id of user who has locked the corresponding cell
+    private int $rows;
+    private int $cols;
+    
+    public function __construct(private int $id) {
+        // TODO: load table with table_id from database instead of using constant table
+        $this->rows = 5;
+        $this->cols = 6;
+        $this->contents = array_fill(0, $this->rows * $this->cols, 4);
+        $this->locked_by = array_fill(0, $this->rows * $this->cols, -1);
     }
 
-    public function setValue($row, $col, $value) {
-        // Set a value in the specified cell
-        $this->table[$row][$col] = $value;
+    public function save_to_db() {
+        // TODO
     }
 
-    public function getValue($row, $col) {
-        // Get the value from the specified cell
-        return $this->table[$row][$col];
+    public function get_id() {
+        return $this->id;
     }
 
-    public function isEmpty($row, $col) {
-        // Check if the specified cell is empty
-        return empty($this->table[$row][$col]);
+    public function get_value($i, $j) {
+        //TODO - make it return the actual value, not the formula
+        return $this->contents[$i * $this->cols + $j];
     }
 
-    public function getTable() {
-        // Get the entire 2D table
-        return $this->table;
+    public function get_formula($i, $j) {
+        return 'this is a formula';
+        //return $this->contents[$i * $this->cols + $j];
+    }
+
+    public function get_rows() {
+        return $this->rows;
+    }
+
+    public function get_cols() {
+        return $this->cols;
+    }
+
+    public function set_formula($i, $j, $formula) {
+        // TODO - check if user has permission to modify the cell (its not locked or its locked by him)
+        $this->contents[$i * $this->cols + $j] = $formula;
     }
 }
