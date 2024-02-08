@@ -45,6 +45,7 @@ define('CSS_PATH', 'assets/');
             var formula = document.getElementById("formula " + row + " " + col);
             var value = document.getElementById("value " + row + " " + col);
             var tmp = formula.innerText;
+    
             formula.innerText = value.innerText;
             value.innerText = tmp;
         }
@@ -67,11 +68,13 @@ define('CSS_PATH', 'assets/');
             const split_cell_id = cell_id.split(" ");
             const row = split_cell_id[1];
             const col = split_cell_id[2];
+            const new_formula = document.getElementById("value " + row + " " + col).innerText;
             ws.send(JSON.stringify({
-                event_type: "unlock",
+                event_type: "modify",
                 table_id: table_id,
                 row: row,
                 col: col,
+                new_formula: new_formula,
             }));
 
             swapValueAndFormula(row, col);
@@ -87,7 +90,15 @@ define('CSS_PATH', 'assets/');
 
         ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
-            console.log('received_msg');
+            console.log(data);
+            if(data["table_id"] == table_id) {
+                if(data["new_value"]) {
+                    var formula = document.getElementById("formula " + data["row"] + " " + data["col"]);
+                    var value = document.getElementById("value " + data["row"] + " " + data["col"]);
+                    formula.innerText = data["new_formula"];
+                    value.innerText = data["new_value"];
+                }
+            }
         };
     </script>
 </body>
