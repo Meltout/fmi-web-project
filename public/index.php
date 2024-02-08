@@ -1,56 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/style.css">
-    <title>Hello World</title>
-</head>
-<body>
-    <h1>Hello, World!</h1>
-    <p>Users:</p>
-    <?php
-    // Your SQLite database connection
-    $pdo = new PDO('sqlite:../mydatabase.sqlite');
+<?php
 
-    // Query to fetch users
-    $query = $pdo->query('SELECT * FROM users');
-    $users = $query->fetchAll(PDO::FETCH_ASSOC);
+require __DIR__ . '/../vendor/autoload.php';
 
-    // Display users
-    echo '<ul>';
-    foreach ($users as $user) {
-        echo '<li>' . htmlspecialchars($user['name']) . '</li>';
+// Define your routes
+$routes = [
+    'GET' => [
+        '/' => 'HomeController@show',
+        '/table/(\d+)' => 'TableController@show', 
+    ],
+    'POST' => [
+        // Add more POST routes as needed
+    ]
+];
+
+// Get the current URL
+$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
+
+// Get the request method
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Check if the route exists
+$routeFound = false;
+if (isset($routes[$method])) {
+    foreach ($routes[$method] as $route => $controllerAction) {
+        // Convert route to regex pattern
+        $pattern = '#^' . preg_replace('#/:([^/]+)#', '/([^/]+)', $route) . '$#';
+        
+        // Check if the URL matches the pattern
+        if (preg_match($pattern, $url, $matches)) {
+            // Remove the first match which is the full URL
+            array_shift($matches);
+            
+            // Split the controller and method
+            $parts = explode('@', $controllerAction);
+            
+            // Get the controller and method names
+            $controllerName = '\\Controllers\\' . $parts[0];
+            $methodName = $parts[1];
+            
+            // Create an instance of the controller
+            $controller = new $controllerName;
+            
+            // Call the controller method with parameters
+            call_user_func_array([$controller, $methodName], $matches);
+            
+            $routeFound = true;
+            break;
+        }
     }
-    echo '</ul>';
-    ?>
-    <?php
-    require __DIR__ . '/../vendor/autoload.php';
-    // Create an instance of GridModel and GridController
-    $rows = 3;
-    $cols = 3;
-    $model = new \Models\TableModel($rows, $cols);
-    $controller = new \Controllers\TableController($model);
+}
 
-    // Set initial values (you can modify this as needed)
-    $controller->updateCellValue(0, 0, 'A');
-    $controller->updateCellValue(1, 1, 'B');
-    $controller->updateCellValue(2, 2, 'C');
-
-    // Handle user input (assuming a simple form submission)
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Assuming form fields are named row, col, and value
-        $row = $_POST["row"];
-        $col = $_POST["col"];
-        $value = $_POST["value"];
-
-        // Update the cell value based on user input
-        $controller->updateCellValue($row, $col, $value);
-    }
-
-    // Render the view
-    $controller->renderView();
-    ?>
-
-</body>
-</html>
+if (!$routeFound) {
+    // Route not found, handle accordingly
+    echo '404 - Page not found';
+}
